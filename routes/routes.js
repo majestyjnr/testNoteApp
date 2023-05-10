@@ -15,7 +15,7 @@ router.post('/', function(req, res, next){
   passport.authenticate('local', {
     successRedirect: "/dashboard",
     failureRedirect: "/",
-    failureFlush: true
+    failureFlash: true
   })(req, res, next)
 })
 

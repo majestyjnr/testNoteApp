@@ -2,6 +2,7 @@ const express = require('express')
 const app = new express()
 const path = require('path')
 const mongoose = require('mongoose')
+const flash = require('connect-flash')
 const passport = require('passport')
 const session = require('express-session')
 
@@ -35,6 +36,19 @@ app.use(session({
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
+
+// Connect Flash Middleware
+app.use(flash())
+
+// Declare GLobal Variables
+app.use(function(req, res, next){
+    res.locals.success_message = req.flash("success_message");
+    res.locals.error_message = req.flash("error_message");
+    res.locals.error = req.flash("error");
+    next()
+})
+
+
 
 // Require Routes
 const routes = require('./routes/routes')
