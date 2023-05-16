@@ -111,18 +111,18 @@
                   <div class="card-body">
                     <h4 class="card-title">Add New Note</h4>
                     <p class="card-description"> </p>
-                    <form class="forms-sample">
+                    <form class="forms-sample" action="/add-note" method="post">
                       <div class="form-group">
                         <label for="exampleInputName1">Note Title</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Title of note">
+                        <input type="text" class="form-control" name="title" id="exampleInputName1" placeholder="Title of note">
                       </div>
                     
                       <div class="form-group">
                         <label for="exampleTextarea1">Note</label>
-                        <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+                        <textarea class="form-control" name="note" id="exampleTextarea1" rows="4"></textarea>
                       </div>
                       <button type="submit" class="btn btn-primary mr-2">Save Note</button>
-                      <button class="btn btn-light">Cancel</button>
+                      <!-- <button class="btn btn-light">Cancel</button> -->
                     </form>
                   </div>
                 </div>

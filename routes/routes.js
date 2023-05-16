@@ -5,12 +5,15 @@ const passport = require('passport')
 
 // Require Models
 const Users = require("../models/Users");
+const Notes = require("../models/Notes");
+
 
 // Description      Renders Login Screen
 router.get("/", function (req, res) {
   res.render("./auth/Login");
 });
 
+// Description  Handle login functionality
 router.post('/', function(req, res, next){
   passport.authenticate('local', {
     successRedirect: "/dashboard",
@@ -19,10 +22,12 @@ router.post('/', function(req, res, next){
   })(req, res, next)
 })
 
+// Description      Renders Signup Screen
 router.get("/signup", function (req, res) {
   res.render("./auth/Signup");
 });
 
+// Description  Handle Signup functionality
 router.post("/signup", function (req, res) {
   let errors = [];
   if (req.body.password !== req.body.confirmpassword) {
@@ -73,17 +78,35 @@ router.post("/signup", function (req, res) {
   }
 });
 
+// Description  Render Dashboard
 router.get("/dashboard", function (req, res) {
   res.render("./dashboard/Dashboard");
 });
 
-// NOTES
+// Description  Render Add Notes Page
 router.get("/add-note", function (req, res) {
   res.render("./dashboard/Addnote");
 });
 
+router.post('/add-note', function(req, res){
+  const newNote = new Notes({
+    title: req.body.title,
+    note: req.body.note,
+    author: req.user.email
+  })
+  newNote.save().then(function(success){
+    req.flash("success_message", "Note added successfully")
+    res.redirect('/all-notes')
+  })
+})
+
+// Description  Render All Notes Page
 router.get("/all-notes", function (req, res) {
-  res.render("./dashboard/Allnotes");
+  Notes.find({author: req.user.email}).then(function(notes){
+    res.render("./dashboard/Allnotes", {
+      notes: notes
+    });
+  })      
 });
 
 // Profile
